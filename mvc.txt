@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<context:component-scan base-package="com.test.controller"/>
+	<bean 
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" /> <!-- search in webcontent -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+</beans>
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>SpringMVCDemo</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>		
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.obj</url-pattern>
+	</servlet-mapping>
+
+</web-app>
+
+
+
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello()
+	{
+		String str="Hello Welcome To Spring MVC ";
+		ModelAndView model= new ModelAndView();
+		model.setViewName("success");
+		model.addObject("message", str);
+		return(model);
+	}
+}
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>${message}</h1>
+</body>
+</html>
+------------------------------------------------------------------------------------------------
+more dan 1
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello()
+	{
+		String str="Hello Welcome To Spring MVC ";
+		ModelAndView model= new ModelAndView("success", "message",str);
+		/*model.setViewName("success");
+		model.addObject("message", str);*/
+		return(model);
+	}
+	
+	@RequestMapping("/hello1")
+	public String sayHello1(Model model)
+	{
+		model.addAttribute("message","Hello From HELLO");
+		return("success");
+	}
+}
+------------------------------------------------------------------------------------------------------
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/alpha")
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello()
+	{
+		String str="Hello Welcome To Spring MVC ";
+		ModelAndView model= new ModelAndView("success", "message",str);
+		/*model.setViewName("success");
+		model.addObject("message", str);*/
+		return(model);
+	}
+	
+	@RequestMapping("/hello1")
+	public String sayHello1(Model model)
+	{
+		model.addAttribute("message","Hello From HELLO");
+		return("success");
+	}
+}
+-----------------------------------------------------------------------------------------------------
+to speicfy msg in url
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/alpha")
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello(@RequestParam("msg") String msg)
+	{
+		
+		String str=msg;
+		ModelAndView model= new ModelAndView("success", "message",str);
+		/*model.setViewName("success");
+		model.addObject("message", str);*/
+		return(model);
+	}
+	
+	@RequestMapping("/hello1")
+	public String sayHello1(Model model)
+	{
+		model.addAttribute("message","Hello From HELLO");
+		return("success");
+	}
+}
+----------------------------------------------------------------------------------------------------------
+to specify get post....
+
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/alpha")
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello(@RequestParam("msg") String msg)
+	{
+		
+		String str=msg;
+		ModelAndView model= new ModelAndView("success", "message",str);
+		/*model.setViewName("success");
+		model.addObject("message", str);*/
+		return(model);
+	}
+	
+	@RequestMapping(value="/hello1",method=RequestMethod.GET)
+	public String sayHello1(Model model)
+	{
+		model.addAttribute("message","Hello From HELLO");
+		return("success");
+	}
+}
+
+
+
+------------------------------------------------------------------------
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+/*@RequestMapping("/alpha")*/
+public class HelloController {
+	
+	@RequestMapping("/show")
+	public String showHomePage()
+	{
+		return("index");
+	}
+	@RequestMapping("/hello")
+	public ModelAndView  sayHello(@RequestParam("msg") String msg)
+	{
+		
+		String str=msg;
+		ModelAndView model= new ModelAndView("success", "message",str);
+		/*model.setViewName("success");
+		model.addObject("message", str);*/
+		return(model);
+	}
+	
+	@RequestMapping(value="/hello1",method=RequestMethod.POST)
+	public String sayHello1(Model model)
+	{
+		model.addAttribute("message","Hello From HELLO");
+		return("success");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1> INDEX PAGE </h1>
+<form action="hello1.obj" method="post">
+<input type ="submit" value="submit"/>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------
+package com.test.bean;
+
+public class EmployeeBean {
+	
+	private int employeeId;
+	private String employeeName;
+	
+	
+	
+	public EmployeeBean() {
+		super();
+	}
+	
+	public EmployeeBean(int employeeId, String employeeName) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+	}
+	
+	
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	
+	
+}
+
+
+
+
+
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public ModelAndView addEmployee(@RequestParam("employeeId") int empid,@RequestParam("employeeName") String empname)
+	{
+		ModelAndView model=new ModelAndView();
+		model.setViewName("success");
+		model.addObject("id", empid);
+		model.addObject("name", empname);
+		return(model);
+	}
+	
+	
+	
+}
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1> EMPLOYEE DETAILS  </h1>
+<form action="addemployee.obj" method="post">
+Enter Employee ID<input type="text" name="employeeId" size="10"/>
+<br>
+Enter Employee Name<input type="text" name="employeeName" size="10"/>
+</br>
+<input type ="submit" value="submit"/>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>EMPLOYEE ID = ${id}</h1>
+<h2>EMPLOYEE NAME = ${name}</h2>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------
+package com.test.bean;
+
+public class EmployeeBean {
+	
+	private int employeeId;
+	private String employeeName;
+	
+	
+	
+	public EmployeeBean() {
+		super();
+	}
+	
+	
+	public EmployeeBean(int employeeId, String employeeName) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+	}
+	
+	
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	
+	
+}
+
+
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.test.bean.EmployeeBean;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public ModelAndView addEmployee(@RequestParam("employeeId") int empid,@RequestParam("employeeName") String empname)
+	{
+		ModelAndView model=new ModelAndView();
+		EmployeeBean bean=new EmployeeBean();
+		bean.setEmployeeId(empid);
+		bean.setEmployeeName(empname);
+		model.setViewName("success");
+		model.addObject("emp", bean);
+     	return(model);
+	}
+	
+	
+	
+}
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1> EMPLOYEE DETAILS  </h1>
+<form action="addemployee.obj" method="post">
+Enter Employee ID<input type="text" name="employeeId" size="10"/>
+<br>
+Enter Employee Name<input type="text" name="employeeName" size="10"/>
+</br>
+<input type ="submit" value="submit"/>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>EMPLOYEE ID = ${emp.employeeId}</h1>
+<h2>EMPLOYEE NAME = ${emp.employeeName}</h2>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.test.bean.EmployeeBean;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public ModelAndView addEmployee(@ModelAttribute("emp") EmployeeBean bean)
+	{
+		ModelAndView model=new ModelAndView();
+		
+		model.setViewName("success");
+		model.addObject("emp", bean);
+     	return(model);
+	}
+	
+	
+	
+}
+-----------------------------------------------------------------------------------------------------------------------------------------
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.test.bean.EmployeeBean;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public String addEmployee(@ModelAttribute("emp") EmployeeBean bean,Model model)
+	{
+     	return("success");
+	}
+	
+	
+	
+}
+--------------------------------------------------------------------------------------------------------------------
+binding result
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>${message}</h1>
+</body>
+</html>
+
+
+
+
+
+package com.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx.Binding;
+import com.test.bean.EmployeeBean;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public String addEmployee(@ModelAttribute("emp") EmployeeBean bean,BindingResult result,Model model)
+	{	
+		if(result.hasErrors()){
+			model.addAttribute("message",result);
+			
+			return("error");
+		}
+     	return("success");
+	}
+	
+	
+	
+}
+------------------------------------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+<tr>
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE NAME</th>
+</tr>
+<c:forEach var="list" items="${list}">
+	<tr>
+		<td>${list.employeeId}</td>
+		<td>${list.employeeName}</td>
+	</tr>
+	</c:forEach>
+</table>
+
+</body>
+</html>
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1> EMPLOYEE DETAILS  </h1>
+<form action="addemployee.obj" method="post">
+Enter Employee ID<input type="text" name="employeeId" size="10"/>
+<br>
+Enter Employee Name<input type="text" name="employeeName" size="10"/>
+</br>
+<input type ="submit" value="submit"/>
+</form>
+<a href="viewAll.obj" > view all employee</a>
+</body>
+</html>
+
+
+
+
+
+
+
+
+package com.test.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.test.bean.EmployeeBean;
+
+@Controller
+public class EmployeeController {
+	
+	
+	/*@RequestMapping("show")*/
+	public String showHomePage()
+	{
+		return("index");
+	}
+	
+	
+	@RequestMapping(value="addemployee",method=RequestMethod.POST)
+	public String addEmployee(@ModelAttribute("emp") EmployeeBean bean,BindingResult result,Model model)
+	{	
+		if(result.hasErrors()){
+			model.addAttribute("message",result);
+			
+			return("error");
+		}
+     	return("success");
+	}
+	
+	@RequestMapping("viewAll")
+	public ModelAndView viewAllEmployee()
+	{
+		List<EmployeeBean> list= new ArrayList<EmployeeBean>() ;
+		EmployeeBean e1=new EmployeeBean(1001,"Jhon");
+		EmployeeBean e2=new EmployeeBean(1002,"Kavita");
+		EmployeeBean e3=new EmployeeBean(1003,"Manoj");
+		list.add(e1);
+		list.add(e2);
+		list.add(e3);
+		ModelAndView model = new ModelAndView();
+		model.setViewName("viewall");
+		model.addObject("list",list);
+		return(model);
+		
+	}
+	
+	
+	
+}--------------------------------------------------------------------------------------------
